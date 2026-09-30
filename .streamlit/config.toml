@@ -1,0 +1,9 @@
+[browser]
+gatherUsageStats = false
+
+[server]
+headless = true
+fileWatcherType = "none"
+showEmailPrompt = false
+enableCORS = false
+enableXsrfProtection = false

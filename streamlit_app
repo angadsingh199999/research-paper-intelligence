@@ -1,0 +1,40 @@
+"""
+Root entry point for the Research Paper Intelligence Streamlit UI.
+
+Run from the project root with:
+
+    streamlit run streamlit_app.py
+"""
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+
+# Make the project root importable.
+ROOT_DIR = Path(__file__).resolve().parent
+
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+
+def main():
+    """
+    Start the Streamlit UI.
+
+    IMPORTANT:
+    The UI module is imported only when the Streamlit application
+    is actually being executed.
+
+    Importing this module from ordinary Python must not initialize
+    Streamlit widgets or any ML models.
+    """
+
+    from app.ui.streamlit_app import main as run_app
+
+    run_app()
+
+
+if __name__ == "__main__":
+    main()

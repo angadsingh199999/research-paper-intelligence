@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Models / large files
+*.pt
+*.pth
+*.onnx
+*.bin
+*.safetensors
+
+# Local databases / vector stores
+chroma_db/
+chroma/
+*.sqlite
+*.db
+
+# Generated outputs
+outputs/
+logs/
+tmp/
+temp/
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Local backups
+backup_before_clean_pipeline/

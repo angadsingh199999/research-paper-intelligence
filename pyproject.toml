@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "research-paper-intelligence"
+version = "0.1.0"
+description = "Research Paper Intelligence & Grounded RAG System"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pymupdf>=1.24.0",
+    "sentence-transformers>=2.6.0",
+    "chromadb>=0.4.0",
+    "rank-bm25>=0.2.2",
+    "streamlit>=1.30.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "openai>=1.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
