@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: research-paper-intelligence
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run streamlit_app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      # HuggingFace — point all caches to /tmp so models download correctly
+      - key: HF_HOME
+        value: /tmp/hf_cache
+      - key: TRANSFORMERS_CACHE
+        value: /tmp/hf_cache
+      - key: SENTENCE_TRANSFORMERS_HOME
+        value: /tmp/st_cache
+      - key: HF_HUB_CACHE
+        value: /tmp/hf_cache/hub
+      # Prevent tokenizer fork warnings
+      - key: TOKENIZERS_PARALLELISM
+        value: "false"
+      # ChromaDB — /tmp is always writable on Render
+      - key: CHROMA_DATA_PATH
+        value: /tmp/chroma
+      # Disable Ollama (not available on Render); app uses its built-in BM25 pipeline
+      - key: LLM_PROVIDER
+        value: none
+      # Streamlit — suppress telemetry/prompts
+      - key: STREAMLIT_BROWSER_GATHER_USAGE_STATS
+        value: "false"

@@ -22,9 +22,9 @@ env/
 *.bin
 *.safetensors
 
-# Local databases / vector stores
+# Local databases / vector stores (rebuilt at runtime — do NOT commit)
+data/chroma/
 chroma_db/
-chroma/
 *.sqlite
 *.db
 

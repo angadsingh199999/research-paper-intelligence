@@ -1,3 +1,4 @@
+import os
 import chromadb
 
 
@@ -5,9 +6,15 @@ class ChromaVectorStore:
 
     def __init__(
         self,
-        persist_directory="data/chroma",
+        persist_directory=None,
         collection_name="research_papers"
     ):
+        # Allow override via env var so Render (ephemeral /tmp) and local
+        # dev (data/chroma) both work without code changes.
+        if persist_directory is None:
+            persist_directory = os.environ.get(
+                "CHROMA_DATA_PATH", "data/chroma"
+            )
 
         self.client = chromadb.PersistentClient(
             path=persist_directory
@@ -18,6 +25,7 @@ class ChromaVectorStore:
                 name=collection_name
             )
         )
+
 
     # ========================================================
     # ADD OR UPSERT CHUNKS

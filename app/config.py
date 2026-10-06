@@ -10,7 +10,7 @@ if env_file.exists():
 
 DATA_DIR = PROJECT_ROOT / "data"
 RAW_PAPERS_DIR = DATA_DIR / "raw_papers"
-CHROMA_DIR = DATA_DIR / "chroma"
+CHROMA_DIR = Path(os.environ.get("CHROMA_DATA_PATH", str(DATA_DIR / "chroma")))
 
 # Ensure critical directories exist
 RAW_PAPERS_DIR.mkdir(parents=True, exist_ok=True)
@@ -32,8 +32,17 @@ OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen3:1.7b")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
-# If local HF cache exists, default offline flag to avoid repeated network DNS timeouts
-hf_cache = Path.home() / ".cache" / "huggingface" / "hub"
-if hf_cache.exists():
+# Resolve HuggingFace cache directory (env var takes priority so Render's
+# /tmp/hf_cache is respected; fall back to the standard ~/.cache/huggingface).
+_hf_home = os.environ.get("HF_HOME") or os.environ.get("TRANSFORMERS_CACHE")
+if _hf_home:
+    hf_cache = Path(_hf_home) / "hub"
+else:
+    hf_cache = Path.home() / ".cache" / "huggingface" / "hub"
+
+# Only enable offline mode when the cache directory already has model weights.
+# On Render, the cache is in /tmp and is empty on first boot → must download.
+if hf_cache.exists() and any(hf_cache.iterdir()):
     os.environ.setdefault("HF_HUB_OFFLINE", "1")
     os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
+

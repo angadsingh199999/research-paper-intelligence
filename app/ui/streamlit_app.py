@@ -1281,6 +1281,7 @@ def main():
                     st.success(
                         "RAG engine is ready."
                     )
+                    st.rerun()
 
         # ----------------------------------------------------
         # Active paper metadata
